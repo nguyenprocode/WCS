@@ -22,11 +22,6 @@
 
 <br/>
 
-<!--
-  GỢI Ý: Chụp 1 ảnh màn hình giao diện, lưu vào docs/screenshot.png rồi bỏ comment dòng dưới:
-  <p align="center"><img src="docs/screenshot.png" alt="Web Code Studio screenshot" width="92%" /></p>
--->
-
 ---
 
 ## Giới thiệu
@@ -77,7 +72,7 @@ Toàn bộ logic chạy ở **phía client**. Project của bạn được lưu 
 - **Gợi ý code thông minh** cho HTML / CSS / JS
 - **Emmet**: `Tab` để bung viết tắt trong HTML, CSS và cả `<style>`
 - **Format code**: HTML, CSS/SCSS/LESS, JS/TS, JSON
-- Bật/tắt Word Wrap, Minimap, đổi cỡ chữ
+- Bật/tắt Word Wrap, Minimap; các cài đặt này được **nhớ** sau khi tải lại trang
 - Nhiều **tab**, tự khôi phục tab đang mở sau khi tải lại trang
 
 </td>
@@ -117,6 +112,9 @@ Toàn bộ logic chạy ở **phía client**. Project của bạn được lưu 
 </tr>
 <tr>
 <td colspan="2" valign="top">
+
+### 📲 PWA
+Cài WCS lên màn hình chính như một ứng dụng (cần HTTPS hoặc localhost). Sau lần mở đầu tiên có mạng, file của app và Monaco được lưu cache nên **mở lại được khi offline**.
 
 ### 🧭 Điều hướng nhanh · Responsive
 **Command Palette** (`Ctrl+Shift+P` / `F1`), **Quick Open** (`Ctrl+P`), **Go to Line** (`Ctrl+G`). Giao diện responsive, có sidebar dạng ngăn kéo và nút thao tác riêng cho thiết bị cảm ứng (Format, Find, Palette) nên dùng khá thoải mái cả trên điện thoại.
