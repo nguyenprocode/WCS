@@ -72,8 +72,9 @@ Toàn bộ logic chạy ở **phía client**. Project của bạn được lưu 
 - **Gợi ý code thông minh** cho HTML / CSS / JS
 - **Emmet**: `Tab` để bung viết tắt trong HTML, CSS và cả `<style>`
 - **Format code**: HTML, CSS/SCSS/LESS, JS/TS, JSON
-- Bật/tắt Word Wrap, Minimap; các cài đặt này được **nhớ** sau khi tải lại trang
+- Bật/tắt Word Wrap, Minimap (qua Command Palette); các cài đặt này được **nhớ** sau khi tải lại trang
 - Nhiều **tab**, tự khôi phục tab đang mở sau khi tải lại trang
+- Màn hình **splash** khi khởi động, báo trạng thái `Ready` / `Offline` ở thanh trạng thái
 
 </td>
 <td width="50%" valign="top">
@@ -94,18 +95,18 @@ Toàn bộ logic chạy ở **phía client**. Project của bạn được lưu 
 ### 🐞 Console & Problems
 - **Console** tích hợp: nhận `console.*` và lỗi runtime từ preview
 - **JavaScript REPL**: gõ lệnh và chạy ngay trong trang đang preview
-- Lọc log, xóa log, giữ log khi preview chạy lại
-- Bảng **PROBLEMS** kiểu VS Code: gom lỗi của **mọi file** trong project
-- **HTML Lint** tự viết: thẻ chưa đóng, `id` trùng, `<img>` thiếu `alt`, `href`/`src` trỏ tới file không tồn tại…
+- Lọc log (All / Errors / Warnings / Info / Logs), xóa log, giữ log khi preview chạy lại; kéo thanh chia để đổi chiều cao, nhớ lịch sử lệnh
+- Bảng **PROBLEMS** kiểu VS Code (`Ctrl+Shift+M`): gom lỗi của **mọi file** trong project, bấm vào để nhảy tới dòng lỗi
+- **HTML Lint** tự viết: thiếu `<!DOCTYPE>`, thẻ chưa đóng / đóng thừa, thuộc tính hoặc `id` trùng, `<img>` thiếu `alt`, `href`/`src` trỏ tới file không tồn tại, lỗi cú pháp trong `<script>`…
 
 </td>
 <td width="50%" valign="top">
 
 ### 📁 Quản lý project
-- **Explorer** có thư mục lồng nhau, tạo file/thư mục mới
+- **Explorer** có thư mục lồng nhau, tạo file/thư mục mới, **đổi tên**, **di chuyển** (menu hoặc kéo thả), tải riêng từng file
 - **Upload** ảnh, `.html`, `.css`, `.js`, `.json`
 - **Import / Download** project dạng `.zip` (tự viết bộ nén zip, không dùng thư viện)
-- **Share Project**: gói cả project thành **một chuỗi văn bản** `WCS1:…` để gửi cho bạn bè
+- **Share Project**: gói cả project thành **một chuỗi văn bản** `WCS1:…` để gửi cho bạn bè (có thể lưu / nạp bằng file `.txt`)
 - Tìm & thay thế **trong file** và **trong toàn project** (Aa / từ nguyên / Regex)
 
 </td>
@@ -114,10 +115,10 @@ Toàn bộ logic chạy ở **phía client**. Project của bạn được lưu 
 <td colspan="2" valign="top">
 
 ### 📲 PWA
-Cài WCS lên màn hình chính như một ứng dụng (cần HTTPS hoặc localhost). Sau lần mở đầu tiên có mạng, file của app và Monaco được lưu cache nên **mở lại được khi offline**.
+Cài WCS lên màn hình chính như một ứng dụng (cần HTTPS hoặc localhost): dùng nút cài của trình duyệt hoặc lệnh **Install App** trong Command Palette. Service Worker (`sw.js`) cache file của app (ưu tiên mạng, rơi về cache khi offline) và cache Monaco từ CDN, nên sau lần mở đầu tiên có mạng bạn **mở lại được khi offline**.
 
 ### 🧭 Điều hướng nhanh · Responsive
-**Command Palette** (`Ctrl+Shift+P` / `F1`), **Quick Open** (`Ctrl+P`), **Go to Line** (`Ctrl+G`). Giao diện responsive, có sidebar dạng ngăn kéo và nút thao tác riêng cho thiết bị cảm ứng (Format, Find, Palette) nên dùng khá thoải mái cả trên điện thoại.
+**Command Palette** (`Ctrl+Shift+P` / `F1`) gom các lệnh File, Search, Preview, View, Editor, App; **Quick Open** (`Ctrl+P`); **Go to Line** (`Ctrl+G`). Giao diện responsive, có sidebar dạng ngăn kéo và nút thao tác riêng cho thiết bị cảm ứng (Format, Find, Palette) nên dùng khá thoải mái cả trên điện thoại.
 
 </td>
 </tr>
@@ -137,6 +138,7 @@ flowchart LR
     A --> F["HTML Lint +<br/>Monaco Markers"]
     F --> G["Problems Panel"]
     B <--> H["Import / Export<br/>.zip · WCS1: text"]
+    I["Service Worker<br/>(PWA cache)"] -.-> A
 ```
 
 - **Không có dữ liệu nào rời khỏi máy bạn.** Chỉ có một request ra ngoài: tải Monaco Editor từ CDN (cdnjs).
@@ -450,7 +452,9 @@ curl http://localhost:3000/api/status
 | File text (`.html` `.css` `.js` `.json`) khi upload | 1 MB / file |
 | File ảnh khi upload | 2 MB / file |
 | Dung lượng toàn project | ~5 MB (giới hạn `localStorage` của trình duyệt) |
-| Dữ liệu sau giải nén khi nhận project | 24 MB |
+| File `.zip` khi Import | 20 MB, tối đa 5000 mục |
+| Dữ liệu sau giải nén khi nhận project (`WCS1:`) | 24 MB |
+| `localStorage` / `sessionStorage` giả lập của trang preview | 512 KB |
 
 Ảnh được hỗ trợ: `png` `jpg` `jpeg` `gif` `webp` `svg` `ico` `bmp` `avif`.
 
@@ -468,6 +472,7 @@ curl http://localhost:3000/api/status
 | `Ctrl + S` | Lưu file |
 | `Ctrl + Enter` | Chạy / làm mới **Preview** |
 | `` Ctrl + ` `` | Bật / tắt **Console** |
+| `Ctrl + Shift + M` | Bật / tắt bảng **Problems** |
 | `Ctrl + F` | Tìm trong file |
 | `Ctrl + H` | Thay thế trong file |
 | `Ctrl + Shift + F` | Tìm trong **toàn project** |
@@ -485,30 +490,40 @@ curl http://localhost:3000/api/status
 ```text
 web-code-studio/
 ├── package.json              # Metadata + script npm (start / dev)
-├── server.js                 # Express: chỉ phục vụ file tĩnh trong public/
+├── server.js                 # Express: phục vụ file tĩnh trong public/ + /api/status
+├── LICENSE                   # Giấy phép MIT
+├── docs/                     # Hình minh họa cho README
+│   ├── banner.svg
+│   └── layout.svg
 └── public/                   # Toàn bộ ứng dụng nằm ở đây (có thể host tĩnh)
     ├── index.html            # Giao diện chính
     ├── favicon.svg           # Logo "W" + con trỏ nhấp nháy
+    ├── manifest.webmanifest  # Khai báo PWA (tên, icon, màu, chế độ standalone)
+    ├── sw.js                 # Service Worker: cache app + Monaco để chạy offline
+    ├── icons/                # Icon PWA (192, 512, maskable 512)
     ├── css/
     │   └── style.css         # Toàn bộ giao diện & responsive
     └── js/
-        ├── app.js            # Khởi tạo, sidebar, zip import/export, upload
+        ├── splash.js         # Màn hình splash khi khởi động
         ├── editor.js         # Monaco, theme, tab, lưu localStorage
+        ├── html-data.js      # Dữ liệu thẻ / thuộc tính HTML
+        ├── autocomplete.js   # Gợi ý code
+        ├── emmet-engine.js   # Engine Emmet
+        ├── emmet.js          # Tích hợp Emmet vào Monaco
         ├── preview.js        # Live Preview engine + runtime sandbox
         ├── console.js        # Console + JavaScript REPL
-        ├── diagnostics.js    # Bảng PROBLEMS, đẩy marker vào Monaco
-        ├── html-lint.js      # Bộ kiểm tra HTML nhẹ, tự viết
-        ├── autocomplete.js   # Gợi ý code
-        ├── html-data.js      # Dữ liệu thẻ / thuộc tính HTML
-        ├── emmet.js          # Tích hợp Emmet vào Monaco
-        ├── emmet-engine.js   # Engine Emmet
-        ├── palette.js        # Command Palette · Quick Open · Go to Line
-        ├── find.js           # Find / Replace trong project
+        ├── app.js            # Khởi tạo, Explorer, zip import/export, upload
+        ├── empty-state.js    # Màn hình khi chưa mở file nào
         ├── replace-core.js   # Lõi xử lý thay thế
+        ├── find.js           # Find / Replace trong project
         ├── format.js         # Nút Format code
         ├── share.js          # Share project dạng văn bản (WCS1:)
         ├── explorer-menu.js  # Menu thao tác ở Explorer
-        └── empty-state.js    # Màn hình khi chưa mở file nào
+        ├── palette.js        # Command Palette · Quick Open · Go to Line
+        ├── settings.js       # Nhớ cài đặt editor (Word Wrap, Minimap)
+        ├── pwa.js            # Đăng ký Service Worker + cài đặt ứng dụng
+        ├── diagnostics.js    # Bảng PROBLEMS, đẩy marker vào Monaco
+        └── html-lint.js      # Bộ kiểm tra HTML nhẹ, tự viết
 ```
 
 ### Công nghệ
@@ -518,7 +533,8 @@ web-code-studio/
 | **Editor** | [Monaco Editor](https://microsoft.github.io/monaco-editor/) `0.52.2` (nạp từ cdnjs) |
 | **Giao diện** | HTML5 + CSS3 thuần, không framework |
 | **Logic** | Vanilla JavaScript, không bundler, không bước build |
-| **Lưu trữ** | `localStorage` (`wcs_browser_files_v1`, `wcs_browser_folders_v1`, `wcs_browser_assets_v1`, `wcs_open_tabs_v1`) |
+| **Lưu trữ** | `localStorage`: project (`wcs_browser_files_v1`, `wcs_browser_folders_v1`, `wcs_browser_assets_v1`), tab đang mở (`wcs_open_tabs_v1`), cài đặt editor (`wcs_editor_settings_v1`), console (`wcs_console_open`, `wcs_console_height`, `wcs_console_history`), kho giả lập của preview (`wcs_preview_storage_v1`) |
+| **PWA** | `manifest.webmanifest` + Service Worker (`sw.js`, cache `app-wcs-v1.0.0` và `cdn-monaco-0.52.2`) |
 | **Server (tùy chọn)** | Node.js + Express 5, chỉ để serve static |
 
 ---
@@ -547,7 +563,9 @@ Tải bản Monaco `0.52.2` (gói `monaco-editor` trên npm hoặc cdnjs), đặ
 - `public/index.html` — thẻ `<script src=".../loader.min.js">`
 - `public/js/editor.js` — `paths.vs` trong hàm `startMonaco()`
 
-trỏ về đường dẫn cục bộ, ví dụ `vendor/monaco/min/vs`.
+trỏ về đường dẫn cục bộ, ví dụ `vendor/monaco/min/vs`. Nếu dùng PWA, thêm các file Monaco vào cache hoặc chỉnh `CDN_HOST` / `CDN_PATH` trong `public/sw.js` cho khớp.
+
+> Lưu ý: nếu bạn đã mở WCS một lần khi có mạng, Service Worker đã cache Monaco nên lần sau vẫn mở được khi offline mà không cần làm bước này.
 
 </details>
 
